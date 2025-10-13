@@ -10,3 +10,7 @@
 Through immersive **Virtual Reality (VR)** experiences and interactive information, users can explore famous **temples, waterfalls, museums, and historical monuments** — all from the comfort of their homes.
 
 This project merges **tourism and modern technology** to create a platform where users can learn, plan, and virtually travel across Chhattisgarh’s most iconic destinations.
+
+
+Project run karne ke liye 👇
+Cd server then npm install then node server.js
