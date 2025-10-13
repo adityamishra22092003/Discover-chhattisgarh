@@ -1,5 +1,12 @@
-Title of the Project:-  “Discover Chhattisgarh: Ek Virtual Safar”
+# 🌏 Discover Chhattisgarh: Ek Virtual Safar
 
+### 🏛️ Explore the Heritage • 🌊 Experience the Beauty • 🎧 Travel Virtually
 
-Introduction / Background
-Chhattisgarh is a state with rich culture, heritage, and natural beauty. Many people are not aware of its famous temples, waterfalls, museums, and historical monuments. With the growth of technology, especially Virtual Reality (VR), we can provide users with an immersive experience of exploring these places from home. This project combines tourism and VR to promote Chhattisgarh’s heritage in a modern and interactive way. (Also provide trip plans and history details about all places).
+---
+
+## 📖 Introduction
+
+**Discover Chhattisgarh: Ek Virtual Safar** is a mobile web-application designed to digitally promote the rich culture, heritage, and natural beauty of **Chhattisgarh**, India.  
+Through immersive **Virtual Reality (VR)** experiences and interactive information, users can explore famous **temples, waterfalls, museums, and historical monuments** — all from the comfort of their homes.
+
+This project merges **tourism and modern technology** to create a platform where users can learn, plan, and virtually travel across Chhattisgarh’s most iconic destinations.
