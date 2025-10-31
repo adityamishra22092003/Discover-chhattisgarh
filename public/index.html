@@ -115,6 +115,67 @@
     .hotspot{width:40px;height:40px;font-size:12px}
     #placesList button{padding:12px}
   }
+    /* Bottom-right compass */
+  .compass {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    width: 110px;
+    height: 110px;
+    border-radius: 12px;
+    background: rgba(5,6,10,0.75);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e6eefc;
+    font-family: system-ui, Arial, sans-serif;
+    z-index: 9999;
+    border: 1px solid rgba(255,255,255,0.04);
+    user-select: none;
+    padding: 8px;
+  }
+  .compass .face {
+    position: relative;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.03), transparent 30%);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .compass .cardinal {
+    position: absolute;
+    font-weight:700;
+    font-size:12px;
+    color: #cbd5e1;
+    pointer-events:none;
+  }
+  .compass .cardinal.n { top: 8px; left: 50%; transform: translateX(-50%); }
+  .compass .cardinal.s { bottom: 8px; left: 50%; transform: translateX(-50%); }
+  .compass .cardinal.e { right: 8px; top: 50%; transform: translateY(-50%); }
+  .compass .cardinal.w { left: 8px; top: 50%; transform: translateY(-50%); }
+
+  .compass .needle {
+    width: 4px;
+    height: px;
+    background: linear-gradient(180deg,#ff7a7a,#f28f8f);
+    position: center;
+    border-radius: 3px;
+    transform-origin: 50% 70%;
+    box-shadow: 0 4px 10px rgba(202, 148, 148, 0.6);
+  }
+  .compass .needle::after {
+    content:'';
+    position:absolute;
+    bottom:-8px;
+    left:50%; transform:translateX(-50%);
+    width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,0.4);
+  }
+  .compass .centerDot {
+    position:absolute;width:8px;height:8px;border-radius:50%;background:#fff;opacity:0.9;z-index:2;
+  }
+
+  @media (max-width:640px){ .compass { width:84px; height:84px; right:12px; bottom:12px } .compass .face{width:66px;height:66px} }
 </style>
 </head>
 <body>
@@ -148,6 +209,16 @@
 
 <!-- add stripe just above the footer -->
 <div class="footer-stripe" aria-hidden="true"></div>
+<div class="compass" aria-hidden="true" id="compass">
+  <div class="face">
+    <div class="cardinal n">N</div>
+    <div class="cardinal e">E</div>
+    <div class="cardinal s">S</div>
+    <div class="cardinal w">W</div>
+    <div class="needle" id="compassNeedle" style="transform:rotate(0deg)"></div>
+    <div class="centerDot"></div>
+  </div>
+</div>
 
 <footer>Discover CG - Ek Virtual Safar</footer>
 
@@ -169,6 +240,25 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
+(function(){
+  const needle = document.getElementById('compassNeedle');
+  if (!needle) return;
+  const toDeg = r => r * 180 / Math.PI;
+
+  function updateCompass() {
+    // pick whichever variable exists in your viewer
+    const angleRad = (typeof yaw !== 'undefined') ? yaw : (typeof targetYaw !== 'undefined' ? targetYaw : 0);
+    // Convert panorama yaw to compass heading:
+    // In many viewers yaw=0 faces +Z; compass heading 0 (N) usually corresponds to -yaw.
+    const headingDeg = -(toDeg(angleRad)) ;
+    // Normalize to [0,360)
+    const norm = ((headingDeg % 360) + 360) % 360;
+    // rotate needle so it points to the north direction relative to view
+    needle.style.transform = `rotate(${norm}deg)`;
+    requestAnimationFrame(updateCompass);
+  }
+  requestAnimationFrame(updateCompass);
+})();
 /* ---- shaders ---- */
 const VS = `
 attribute vec3 aPos;
