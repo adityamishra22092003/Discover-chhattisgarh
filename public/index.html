@@ -199,6 +199,8 @@
     <div id="controls">
       <button id="enterVr" class="btn">Enter VR </button>
       <button id="resetView" class="btn" style="background:#111827">Reset View</button>
+      <button id="pseudoVr" class="btn secondary">Pseudo VR</button>
+      <button id="gyroToggle" class="btn secondary">Gyro Off</button>
       <label style="color:#cbd5e1;margin-left:8px">FOV <input id="fov" type="range" min="40" max="100" value="60" style="vertical-align:middle"></label>
     </div>
 
@@ -424,7 +426,6 @@ canvas.addEventListener('wheel', e => { fov = Math.min(100, Math.max(40, fov + e
 /* ---- simple animation loop ---- */
 function draw(){
   resizeCanvas();
-  gl.viewport(0,0,gl.canvas.width, gl.canvas.height);
   gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   gl.enable(gl.DEPTH_TEST);
 
@@ -433,23 +434,56 @@ function draw(){
   pitch += (targetPitch - pitch) * 0.12;
   pitch = Math.max(-Math.PI/2 + 0.01, Math.min(Math.PI/2 - 0.01, pitch));
 
-  // projection & view
-  const proj = mat4_perspective(fov, gl.canvas.width / gl.canvas.height);
-  let view = mat4_identity();
-  mat4_rotate(view, -pitch, [1,0,0]);
-  mat4_rotate(view, -yaw, [0,1,0]);
+  const w = gl.canvas.width, h = gl.canvas.height;
 
-  gl.uniformMatrix4fv(uProj, false, proj);
-  gl.uniformMatrix4fv(uView, false, view);
+  if (isPseudoVR) {
+    // left eye
+    const half = Math.floor(w / 2);
+    gl.viewport(0, 0, half, h);
+    const leftProj = mat4_perspective(fov, half / h);
+    let leftView = mat4_identity();
+    mat4_rotate(leftView, -pitch, [1,0,0]);
+    mat4_rotate(leftView, -(yaw - pseudoEyeOffset), [0,1,0]);
+    gl.uniformMatrix4fv(uProj, false, leftProj);
+    gl.uniformMatrix4fv(uView, false, leftView);
+    if (texture) { gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texture); gl.uniform1i(uTex, 0); }
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+    gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
 
-  if (texture) {
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.uniform1i(uTex, 0);
+    // right eye
+    gl.viewport(half, 0, w - half, h);
+    const rightProj = mat4_perspective(fov, (w - half) / h);
+    let rightView = mat4_identity();
+    mat4_rotate(rightView, -pitch, [1,0,0]);
+    mat4_rotate(rightView, -(yaw + pseudoEyeOffset), [0,1,0]);
+    gl.uniformMatrix4fv(uProj, false, rightProj);
+    gl.uniformMatrix4fv(uView, false, rightView);
+    if (texture) { gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texture); gl.uniform1i(uTex, 0); }
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+    gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
+
+    // optional: draw a small black divider line between eyes for clarity
+    // (left as exercise if you want an overlay DOM element)
+  } else {
+    // normal single render
+    gl.viewport(0,0,w,h);
+    const proj = mat4_perspective(fov, w / h);
+    let view = mat4_identity();
+    mat4_rotate(view, -pitch, [1,0,0]);
+    mat4_rotate(view, -yaw, [0,1,0]);
+
+    gl.uniformMatrix4fv(uProj, false, proj);
+    gl.uniformMatrix4fv(uView, false, view);
+
+    if (texture) {
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.uniform1i(uTex, 0);
+    }
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+    gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
   }
-
-  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
-  gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
 
   requestAnimationFrame(draw);
 }
@@ -528,6 +562,118 @@ xrBtn.addEventListener('click', async ()=>{
     alert('Failed to start XR: ' + err.message);
   }
 });
+
+
+let isPseudoVR = false;
+let usingGyro = false;
+const pseudoEyeOffset = 0.02; // radians yaw offset for left/right eye (tweak for stronger/softer effect)
+
+document.getElementById('pseudoVr').addEventListener('click', ()=> {
+  isPseudoVR = !isPseudoVR;
+  document.getElementById('pseudoVr').textContent = isPseudoVR ? 'Exit Pseudo VR' : 'Pseudo VR';
+  // when entering pseudo VR request fullscreen for better immersion (optional)
+  if (isPseudoVR && document.fullscreenEnabled) {
+    canvas.requestFullscreen?.();
+  } else if (!isPseudoVR && document.fullscreenElement) {
+    document.exitFullscreen?.();
+  }
+});
+
+document.getElementById('gyroToggle').addEventListener('click', async () => {
+  // On iOS 13+ DeviceOrientationEvent requires permission
+  if (!usingGyro && typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    try {
+      const resp = await DeviceOrientationEvent.requestPermission();
+      if (resp !== 'granted') {
+        alert('Gyro permission denied');
+        return;
+      }
+    } catch (e) {
+      console.warn('gyro permission request failed', e);
+    }
+  }
+  usingGyro = !usingGyro;
+  document.getElementById('gyroToggle').textContent = usingGyro ? 'Gyro On' : 'Gyro Off';
+});
+
+/* device orientation -> map to viewer yaw/pitch (mobile) */
+function onDeviceOrientation(e) {
+  if (!usingGyro) return;
+  // alpha: compass heading (0..360), beta: front/back tilt (-180..180), gamma: left/right tilt (-90..90)
+  const alpha = (e.alpha ?? 0) * Math.PI / 180; // yaw-ish
+  const beta  = (e.beta  ?? 0) * Math.PI / 180; // pitch-ish
+  // map alpha to yaw (negated to match viewer coordinate)
+  targetYaw = -alpha;
+  // map beta to pitch but clamp
+  targetPitch = Math.max(-Math.PI/2 + 0.01, Math.min(Math.PI/2 - 0.01, beta * 0.7));
+}
+window.addEventListener('deviceorientation', onDeviceOrientation);
+
+/* ---- simple animation loop (updated to support pseudo VR) ---- */
+function draw(){
+  resizeCanvas();
+  gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  gl.enable(gl.DEPTH_TEST);
+
+  // smooth damp
+  yaw += (targetYaw - yaw) * 0.12;
+  pitch += (targetPitch - pitch) * 0.12;
+  pitch = Math.max(-Math.PI/2 + 0.01, Math.min(Math.PI/2 - 0.01, pitch));
+
+  const w = gl.canvas.width, h = gl.canvas.height;
+
+  if (isPseudoVR) {
+    // left eye
+    const half = Math.floor(w / 2);
+    gl.viewport(0, 0, half, h);
+    const leftProj = mat4_perspective(fov, half / h);
+    let leftView = mat4_identity();
+    mat4_rotate(leftView, -pitch, [1,0,0]);
+    mat4_rotate(leftView, -(yaw - pseudoEyeOffset), [0,1,0]);
+    gl.uniformMatrix4fv(uProj, false, leftProj);
+    gl.uniformMatrix4fv(uView, false, leftView);
+    if (texture) { gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texture); gl.uniform1i(uTex, 0); }
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+    gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
+
+    // right eye
+    gl.viewport(half, 0, w - half, h);
+    const rightProj = mat4_perspective(fov, (w - half) / h);
+    let rightView = mat4_identity();
+    mat4_rotate(rightView, -pitch, [1,0,0]);
+    mat4_rotate(rightView, -(yaw + pseudoEyeOffset), [0,1,0]);
+    gl.uniformMatrix4fv(uProj, false, rightProj);
+    gl.uniformMatrix4fv(uView, false, rightView);
+    if (texture) { gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texture); gl.uniform1i(uTex, 0); }
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+    gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
+
+    // optional: draw a small black divider line between eyes for clarity
+    // (left as exercise if you want an overlay DOM element)
+  } else {
+    // normal single render
+    gl.viewport(0,0,w,h);
+    const proj = mat4_perspective(fov, w / h);
+    let view = mat4_identity();
+    mat4_rotate(view, -pitch, [1,0,0]);
+    mat4_rotate(view, -yaw, [0,1,0]);
+
+    gl.uniformMatrix4fv(uProj, false, proj);
+    gl.uniformMatrix4fv(uView, false, view);
+
+    if (texture) {
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.uniform1i(uTex, 0);
+    }
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+    gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
+  }
+
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
 </script>
 </body>
 </html>
