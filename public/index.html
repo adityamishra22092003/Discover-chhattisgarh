@@ -186,9 +186,9 @@
     <div id="placesList">
       <!-- Example place buttons -->
       <!-- <!-- <button data-panorama="">Sample Panorama</button> -->
-      <button data-panorama="assets/panoramas/c-block.jpg">C-BLOCK GECR</button> 
+      <button data-panorama="assets/panoramas/c-blockEnterence.jpg">C-BLOCK Enterence</button> 
       <button data-panorama="assets/panoramas/maa.jpg">Maa Bamleshwari</button>
-      <button data-panorama="assets/panoramas/va.jpg">VS&T</button>
+      <button data-panorama="assets/panoramas/c-blockFront.jpg">C-BLOCK Front</button>
     </div>
     <div style="height:12px"></div>
     <div style="color:#cbd5e1;font-size:13px">Controls: drag to look, scroll to zoom, click hotspot to teleport view.</div>
@@ -498,7 +498,7 @@ document.querySelectorAll('#placesList button').forEach(b=>{
 });
 
 /* ---- load default panorama ---- */
-loadTexture('assets/panoramas/va.jpg');
+loadTexture('assets/panoramas/c-blockFront.jpg');
 
 /* ---- reset view button ---- */
 document.getElementById('resetView').addEventListener('click', ()=>{ targetYaw=0; targetPitch=0; fov=60; document.getElementById('fov').value=60; });
