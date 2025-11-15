@@ -6,8 +6,9 @@
 <title>DISCOVER CHHATTISGARH </title>
 <style>
   :root{
-    --bg-0: #05060a;
-    --bg-1: #071029;
+    --bg-0: #1a1a2e;
+    --bg-1: #16213e;
+    --bg-2: #0f3460;
     --card: #0f1724;
     --muted: #94a3b8;
     --accent: linear-gradient(90deg,#3b82f6,#06b6d4);
@@ -19,7 +20,36 @@
   }
 
   /* Page */
-  html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg-0),var(--bg-1));font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#e6eefc;}
+  html,body{
+    height:100%;
+    margin:0;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background-attachment: fixed;
+    font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    color:#e6eefc;
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  /* Animated background gradient */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    z-index: -1;
+  }
+  
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
   *{box-sizing:border-box}
 
   /* Header */
@@ -176,412 +206,214 @@
   }
 
   @media (max-width:640px){ .compass { width:84px; height:84px; right:12px; bottom:12px } .compass .face{width:66px;height:66px} }
+
+  /* Iframe controls */
+  .iframe-container {
+    position: relative;
+    margin: 0 auto;
+    max-width: 100%;
+    width: 100%;
+    height: calc(100vh - 140px);
+    padding: 20px;
+    box-sizing: border-box;
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .iframe-controls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 16px 20px;
+    background: linear-gradient(180deg, transparent, rgba(26,26,46,0.95));
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    z-index: 1000;
+    flex-wrap: wrap;
+    animation: slideUp 0.6s ease-out;
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .iframe-controls .btn {
+    padding: 12px 24px;
+    font-size: 15px;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .iframe-controls .btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+  
+  .iframe-controls .btn:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .iframe-controls .btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+  }
+  
+  .iframe-controls .btn:active {
+    transform: translateY(-1px) scale(1.02);
+  }
+  
+  .iframe-controls .btn .btn-icon {
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .iframe-controls .btn:hover .btn-icon {
+    transform: rotate(5deg) scale(1.1);
+  }
+  
+  .iframe-controls .btn span {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .btn-icon {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+  }
+  
+  #panoramaIframe {
+    width: 100%;
+    height: 100%;
+    animation: fadeIn 1s ease-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  #panoramaIframe:hover {
+    transform: scale(1.01);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Pulse animation for VR button */
+  @keyframes pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    }
+    50% {
+      box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    }
+  }
+  
+  #iframeVr {
+    animation: pulse 2s infinite;
+  }
 </style>
 </head>
 <body>
 <header><h1>Discover CG — EK Virtual Safar </h1></header>
-<div id="app">
-  <aside class="panel" id="left">
-    <h3 style="margin-top:0;color:#e6eefc">Places</h3>
-    <div id="placesList">
-      <!-- Example place buttons -->
-      <!-- <!-- <button data-panorama="">Sample Panorama</button> -->
-      <button data-panorama="assets/panoramas/C-blockFront.jpg">C-BLOCK Front</button> 
-      <button data-panorama="assets/panoramas/maa.jpg">Maa Bamleshwari</button>
-      <button data-panorama="assets/panoramas/C-blockE.jpg">C-BLOCK Enterence</button>
-    </div>
-    <div style="height:12px"></div>
-    <div style="color:#cbd5e1;font-size:13px">Controls: drag to look, scroll to zoom, click hotspot to teleport view.</div>
-  </aside>
-
-  <section class="panel" id="preview">
-    <canvas id="glcanvas" width="1280" height="720"></canvas>
-    <div id="controls">
-      <button id="enterVr" class="btn">Enter VR </button>
-      <button id="resetView" class="btn" style="background:#111827">Reset View</button>
-      <button id="pseudoVr" class="btn secondary">Pseudo VR</button>
-      <button id="gyroToggle" class="btn secondary">Gyro Off</button>
-      <label style="color:#cbd5e1;margin-left:8px">FOV <input id="fov" type="range" min="40" max="100" value="60" style="vertical-align:middle"></label>
-    </div>
-
-    <!-- a simple clickable hotspot (positioned in DOM for demo) -->
-    <div id="hot1" class="hotspot" title="Hotspot: click to go">GO</div>
-  </section>
+<div class="iframe-container">
+  <iframe id="panoramaIframe" allowFullScreen="true" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; magnetometer; microphone; xr-spatial-tracking; camera; fullscreen; vr" style="display:block; border:0 none; border-radius:8px; box-shadow: 0 1px 1px rgba(0,0,0,0.11),0 2px 2px rgba(0,0,0,0.11),0 4px 4px rgba(0,0,0,0.11),0 6px 8px rgba(0,0,0,0.11),0 8px 16px rgba(0,0,0,0.11);" src="https://panoraven.com/en/embed/XAn2qfBhuA"></iframe>
 </div>
-
-<!-- add stripe just above the footer -->
-<div class="footer-stripe" aria-hidden="true"></div>
-<div class="compass" aria-hidden="true" id="compass">
-  <div class="face">
-    <div class="cardinal n">N</div>
-    <div class="cardinal e">E</div>
-    <div class="cardinal s">S</div>
-    <div class="cardinal w">W</div>
-    <div class="needle" id="compassNeedle" style="transform:rotate(0deg)"></div>
-    <div class="centerDot"></div>
-  </div>
+<div class="iframe-controls">
+  <button id="iframeVr" class="btn">
+    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14"/>
+      <path d="M12 5l7 7-7 7"/>
+      <rect x="2" y="6" width="20" height="12" rx="2"/>
+      <path d="M7 10h2M7 14h2"/>
+      <path d="M15 10h2M15 14h2"/>
+    </svg>
+    <span>Enter VR</span>
+  </button>
+  <button id="iframeGyro" class="btn secondary">
+    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>
+      <path d="M7.05 7.05l2.12 2.12M14.83 14.83l2.12 2.12M7.05 16.95l2.12-2.12M14.83 9.17l2.12-2.12"/>
+      <path d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+      <path d="M12 8v8M8 12h8"/>
+    </svg>
+    <span id="gyroText">Gyro Off</span>
+  </button>
+  <button id="iframeResetView" class="btn secondary">Reset View</button>
+  <button id="iframeFullscreen" class="btn secondary">Fullscreen</button>
 </div>
-
-<footer>Discover CG - Ek Virtual Safar</footer>
 
 <script>
-/* ========= Minimal WebGL 360 viewer (self-contained) ========= */
+/* ========= Iframe VR and Gyro Controls ========= */
+let iframeUsingGyro = false;
+const iframe = document.getElementById('panoramaIframe');
 
-const canvas = document.getElementById('glcanvas');
-const gl = canvas.getContext('webgl', { antialias: true });
-if(!gl) alert('WebGL not supported');
-
-function resizeCanvas() {
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const width = canvas.clientWidth * dpr;
-  const height = Math.max(300, canvas.clientHeight * dpr);
-  if (canvas.width !== width || canvas.height !== height) {
-    canvas.width = width; canvas.height = height;
-  }
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-(function(){
-  const needle = document.getElementById('compassNeedle');
-  if (!needle) return;
-  const toDeg = r => r * 180 / Math.PI;
-
-  function updateCompass() {
-    // pick whichever variable exists in your viewer
-    const angleRad = (typeof yaw !== 'undefined') ? yaw : (typeof targetYaw !== 'undefined' ? targetYaw : 0);
-    // Convert panorama yaw to compass heading:
-    // In many viewers yaw=0 faces +Z; compass heading 0 (N) usually corresponds to -yaw.
-    const headingDeg = -(toDeg(angleRad)) ;
-    // Normalize to [0,360)
-    const norm = ((headingDeg % 360) + 360) % 360;
-    // rotate needle so it points to the north direction relative to view
-    needle.style.transform = `rotate(${norm}deg)`;
-    requestAnimationFrame(updateCompass);
-  }
-  requestAnimationFrame(updateCompass);
-})();
-/* ---- shaders ---- */
-const VS = `
-attribute vec3 aPos;
-attribute vec2 aUV;
-uniform mat4 uProj, uView;
-varying vec2 vUV;
-void main(){ vUV = aUV; gl_Position = uProj * uView * vec4(aPos,1.0); }
-`;
-const FS = `
-precision mediump float;
-varying vec2 vUV;
-uniform sampler2D uTex;
-void main(){ vec3 c = texture2D(uTex, vUV).rgb; gl_FragColor = vec4(c,1.0); }
-`;
-
-/* ---- compile helpers ---- */
-function compileShader(src, type) {
-  const s = gl.createShader(type);
-  gl.shaderSource(s, src);
-  gl.compileShader(s);
-  if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-    console.error(gl.getShaderInfoLog(s));
-    throw new Error('Shader compile error');
-  }
-  return s;
-}
-function createProgram(vs, fs) {
-  const p = gl.createProgram();
-  gl.attachShader(p, compileShader(vs, gl.VERTEX_SHADER));
-  gl.attachShader(p, compileShader(fs, gl.FRAGMENT_SHADER));
-  gl.linkProgram(p);
-  if(!gl.getProgramParameter(p, gl.LINK_STATUS)) {
-    console.error(gl.getProgramInfoLog(p));
-    throw new Error('Program link error');
-  }
-  return p;
-}
-const prog = createProgram(VS, FS);
-gl.useProgram(prog);
-const aPos = gl.getAttribLocation(prog, 'aPos');
-const aUV  = gl.getAttribLocation(prog, 'aUV');
-const uProj = gl.getUniformLocation(prog, 'uProj');
-const uView = gl.getUniformLocation(prog, 'uView');
-const uTex  = gl.getUniformLocation(prog, 'uTex');
-
-/* ---- sphere geometry (inside-facing) ---- */
-function makeSphere(radius=50, latBands=60, longBands=60){
-  const positions=[], uvs=[], indices=[];
-  for(let lat=0; lat<=latBands; lat++){
-    const theta = lat * Math.PI / latBands;
-    const sinT = Math.sin(theta), cosT = Math.cos(theta);
-    for(let lon=0; lon<=longBands; lon++){
-      const phi = lon * 2 * Math.PI / longBands;
-      const sinP = Math.sin(phi), cosP = Math.cos(phi);
-      const x = radius * sinT * cosP;
-      const y = radius * cosT;
-      const z = radius * sinT * sinP;
-      positions.push(x,y,z);
-      const u = 1 - (lon / longBands);
-      const v = lat / latBands;
-      uvs.push(u,v);
-    }
-  }
-  for(let lat=0; lat<latBands; lat++){
-    for(let lon=0; lon<longBands; lon++){
-      const first = (lat * (longBands+1)) + lon;
-      const second = first + longBands + 1;
-      // inside-facing triangles (flip winding)
-      indices.push(first, second, first+1);
-      indices.push(second, second+1, first+1);
-    }
-  }
-  return {positions:new Float32Array(positions), uvs:new Float32Array(uvs), indices:new Uint16Array(indices)};
-}
-
-const sph = makeSphere(50, 40, 60);
-const posBuf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, posBuf); gl.bufferData(gl.ARRAY_BUFFER, sph.positions, gl.STATIC_DRAW);
-const uvBuf  = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, uvBuf);  gl.bufferData(gl.ARRAY_BUFFER, sph.uvs, gl.STATIC_DRAW);
-const ibo    = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, sph.indices, gl.STATIC_DRAW);
-
-/* ---- enable attributes ---- */
-gl.bindBuffer(gl.ARRAY_BUFFER, posBuf); gl.enableVertexAttribArray(aPos); gl.vertexAttribPointer(aPos,3,gl.FLOAT,false,0,0);
-gl.bindBuffer(gl.ARRAY_BUFFER, uvBuf);  gl.enableVertexAttribArray(aUV);  gl.vertexAttribPointer(aUV,2,gl.FLOAT,false,0,0);
-
-/* ---- texture loader ---- */
-let texture = null;
-function loadTexture(url){
-  const img = new Image();
-  img.crossOrigin = 'anonymous';
-  img.onload = ()=>{
-    if(texture) gl.deleteTexture(texture);
-    texture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
-    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
-
-    // Check if image is power of two
-    function isPowerOf2(x) { return (x & (x - 1)) === 0; }
-    if (isPowerOf2(img.width) && isPowerOf2(img.height)) {
-      gl.generateMipmap(gl.TEXTURE_2D);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-    } else {
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    }
-  };
-  img.src = url;
-}
-
-/* ---- simple view / camera math ---- */
-let yaw = 0, pitch = 0, targetYaw = 0, targetPitch = 0, fov = 60;
-function mat4_perspective(fovDeg, aspect, near=0.1, far=1000){
-  const f = 1/Math.tan((fovDeg*Math.PI/180)/2);
-  const nf = 1/(near - far);
-  const out = new Float32Array(16);
-  out[0] = f / aspect; out[5] = f; out[10] = (far + near) * nf; out[11] = -1; out[14] = (2 * far * near) * nf;
-  return out;
-}
-function mat4_identity(){ const o = new Float32Array(16); o[0]=o[5]=o[10]=o[15]=1; return o; }
-function mat4_rotate(out, ang, axis){
-  const x=axis[0], y=axis[1], z=axis[2];
-  const len = Math.hypot(x,y,z); if(!len) return;
-  const nx=x/len, ny=y/len, nz=z/len;
-  const s=Math.sin(ang), c=Math.cos(ang), t=1-c;
-  const r = [
-    t*nx*nx + c, t*nx*ny - s*nz, t*nx*nz + s*ny, 0,
-    t*nx*ny + s*nz, t*ny*ny + c, t*ny*nz - s*nx, 0,
-    t*nx*nz - s*ny, t*ny*nz + s*nx, t*nz*nz + c, 0,
-    0,0,0,1
-  ];
-  // out = r * out
-  const tmp = new Float32Array(16);
-  for(let row=0; row<4; row++){
-    for(let col=0; col<4; col++){
-      let sum=0;
-      for(let k=0;k<4;k++) sum += r[row*4+k] * out[k*4+col];
-      tmp[row*4+col]=sum;
-    }
-  }
-  out.set(tmp);
-}
-
-/* ---- input handling: drag-to-rotate, wheel to zoom ---- */
-let dragging=false, lastX=0, lastY=0;
-canvas.addEventListener('mousedown', e => { dragging=true; lastX=e.clientX; lastY=e.clientY; canvas.style.cursor='grabbing'; });
-window.addEventListener('mouseup', ()=>{ dragging=false; canvas.style.cursor='default'; });
-window.addEventListener('mousemove', e => {
-  if(!dragging) return;
-  const dx = e.clientX - lastX, dy = e.clientY - lastY;
-  targetYaw += dx * 0.006; targetPitch += dy * 0.006;
-  lastX = e.clientX; lastY = e.clientY;
-});
-canvas.addEventListener('touchstart', e => { if(e.touches.length===1){ lastX=e.touches[0].clientX; lastY=e.touches[0].clientY; } });
-canvas.addEventListener('touchmove', e => {
-  if(e.touches.length!==1) return;
-  const dx = e.touches[0].clientX - lastX, dy = e.touches[0].clientY - lastY;
-  targetYaw += dx * 0.006; targetPitch += dy * 0.006;
-  lastX = e.touches[0].clientX; lastY = e.touches[0].clientY; e.preventDefault();
-},{passive:false});
-canvas.addEventListener('wheel', e => { fov = Math.min(100, Math.max(40, fov + e.deltaY * 0.02)); document.getElementById('fov').value = fov; });
-
-/* ---- simple animation loop ---- */
-function draw(){
-  resizeCanvas();
-  gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-  gl.enable(gl.DEPTH_TEST);
-
-  // smooth damp
-  yaw += (targetYaw - yaw) * 0.12;
-  pitch += (targetPitch - pitch) * 0.12;
-  pitch = Math.max(-Math.PI/2 + 0.01, Math.min(Math.PI/2 - 0.01, pitch));
-
-  const w = gl.canvas.width, h = gl.canvas.height;
-
-  if (isPseudoVR) {
-    // left eye
-    const half = Math.floor(w / 2);
-    gl.viewport(0, 0, half, h);
-    const leftProj = mat4_perspective(fov, half / h);
-    let leftView = mat4_identity();
-    mat4_rotate(leftView, -pitch, [1,0,0]);
-    mat4_rotate(leftView, -(yaw - pseudoEyeOffset), [0,1,0]);
-    gl.uniformMatrix4fv(uProj, false, leftProj);
-    gl.uniformMatrix4fv(uView, false, leftView);
-    if (texture) { gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texture); gl.uniform1i(uTex, 0); }
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
-    gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
-
-    // right eye
-    gl.viewport(half, 0, w - half, h);
-    const rightProj = mat4_perspective(fov, (w - half) / h);
-    let rightView = mat4_identity();
-    mat4_rotate(rightView, -pitch, [1,0,0]);
-    mat4_rotate(rightView, -(yaw + pseudoEyeOffset), [0,1,0]);
-    gl.uniformMatrix4fv(uProj, false, rightProj);
-    gl.uniformMatrix4fv(uView, false, rightView);
-    if (texture) { gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texture); gl.uniform1i(uTex, 0); }
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
-    gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
-
-    // optional: draw a small black divider line between eyes for clarity
-    // (left as exercise if you want an overlay DOM element)
-  } else {
-    // normal single render
-    gl.viewport(0,0,w,h);
-    const proj = mat4_perspective(fov, w / h);
-    let view = mat4_identity();
-    mat4_rotate(view, -pitch, [1,0,0]);
-    mat4_rotate(view, -yaw, [0,1,0]);
-
-    gl.uniformMatrix4fv(uProj, false, proj);
-    gl.uniformMatrix4fv(uView, false, view);
-
-    if (texture) {
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, texture);
-      gl.uniform1i(uTex, 0);
-    }
-
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
-    gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
-  }
-
-  requestAnimationFrame(draw);
-}
-requestAnimationFrame(draw);
-
-/* ---- UI: load panorama buttons ---- */
-document.querySelectorAll('#placesList button').forEach(b=>{
-  b.addEventListener('click', ()=> {
-    const p = b.dataset.panorama;
-    loadTexture(p);
-  });
-});
-
-/* ---- load default panorama ---- */
-loadTexture('assets/panoramas/C-blockFront.jpg');
-
-/* ---- reset view button ---- */
-document.getElementById('resetView').addEventListener('click', ()=>{ targetYaw=0; targetPitch=0; fov=60; document.getElementById('fov').value=60; });
-
-/* ---- fov control ---- */
-document.getElementById('fov').addEventListener('input', e => { fov = +e.target.value; });
-
-/* ---- simple hotspot and teleport animation ---- */
-const hot = document.getElementById('hot1');
-hot.addEventListener('click', ()=> {
-  // hardcoded spherical target: yaw = 1.2rad, pitch = -0.12rad (pick any)
-  const tgtYaw = 1.2, tgtPitch = -0.12;
-  // animate targetYaw/targetPitch smoothly
-  const dur = 600, start = performance.now(), sy = targetYaw, sp = targetPitch;
-  (function anim(t){
-    const p = Math.min(1, (t - start) / dur);
-    const ease = 0.5 - 0.5 * Math.cos(Math.PI * p);
-    targetYaw = sy + (tgtYaw - sy) * ease;
-    targetPitch = sp + (tgtPitch - sp) * ease;
-    if (p < 1) requestAnimationFrame(anim);
-  })(start);
-});
-
-/* ---- simple pointer-lock toggle (click canvas) ---- */
-canvas.addEventListener('click', ()=> {
-  if (!document.pointerLockElement) canvas.requestPointerLock?.();
-});
-
-/* ---- WebXR start (basic) ---- */
-const xrBtn = document.getElementById('enterVr');
-xrBtn.addEventListener('click', async ()=>{
-  if (!navigator.xr) { alert('WebXR not supported in this browser'); return; }
+// VR Button
+document.getElementById('iframeVr').addEventListener('click', async () => {
   try {
+    if (!navigator.xr) {
+      alert('WebXR not supported in this browser');
+      return;
+    }
     const supported = await navigator.xr.isSessionSupported('immersive-vr');
-    if (!supported) { alert('immersive-vr not available'); return; }
-    const session = await navigator.xr.requestSession('immersive-vr');
-    await gl.makeXRCompatible();
-    const xrLayer = new XRWebGLLayer(session, gl);
-    session.updateRenderState({ baseLayer: xrLayer });
-    const refSpace = await session.requestReferenceSpace('local');
-
-    session.requestAnimationFrame(function onXRFrame(time, xrFrame){
-      const session = xrFrame.session;
-      session.requestAnimationFrame(onXRFrame);
-      const pose = xrFrame.getViewerPose(refSpace);
-      if(!pose) return;
-      // For simplicity: render first view using pose to set view matrix.
-      const view = pose.views[0];
-      // view.transform.inverse.matrix is Float32Array(16) if available - use it as view matrix
-      const viewMat = view.transform.inverse.matrix;
-      gl.viewport(0,0, xrLayer.getViewport(view).width, xrLayer.getViewport(view).height);
-      gl.uniformMatrix4fv(uProj, false, view.projectionMatrix);
-      gl.uniformMatrix4fv(uView, false, viewMat);
-      if (texture) { gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texture); gl.uniform1i(uTex,0); }
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
-      gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
-    });
-
-  } catch(err){
-    console.error(err);
-    alert('Failed to start XR: ' + err.message);
+    if (!supported) {
+      alert('VR session not available');
+      return;
+    }
+    // Try to enter VR through iframe content
+    iframe.contentWindow?.postMessage({ type: 'enterVR' }, '*');
+    alert('VR mode activate by clicking the VR button in the iframe');
+  } catch(err) {
+    console.error('VR error:', err);
+    alert('VR start error: ' + err.message);
   }
 });
 
-
-let isPseudoVR = false;
-let usingGyro = false;
-const pseudoEyeOffset = 0.02; // radians yaw offset for left/right eye (tweak for stronger/softer effect)
-
-document.getElementById('pseudoVr').addEventListener('click', ()=> {
-  isPseudoVR = !isPseudoVR;
-  document.getElementById('pseudoVr').textContent = isPseudoVR ? 'Exit Pseudo VR' : 'Pseudo VR';
-  // when entering pseudo VR request fullscreen for better immersion (optional)
-  if (isPseudoVR && document.fullscreenEnabled) {
-    canvas.requestFullscreen?.();
-  } else if (!isPseudoVR && document.fullscreenElement) {
-    document.exitFullscreen?.();
-  }
-});
-
-document.getElementById('gyroToggle').addEventListener('click', async () => {
-  // On iOS 13+ DeviceOrientationEvent requires permission
-  if (!usingGyro && typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+// Gyro Button
+document.getElementById('iframeGyro').addEventListener('click', async () => {
+  if (!iframeUsingGyro && typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
     try {
       const resp = await DeviceOrientationEvent.requestPermission();
       if (resp !== 'granted') {
@@ -589,91 +421,44 @@ document.getElementById('gyroToggle').addEventListener('click', async () => {
         return;
       }
     } catch (e) {
-      console.warn('gyro permission request failed', e);
+      console.warn('Gyro permission request failed', e);
     }
   }
-  usingGyro = !usingGyro;
-  document.getElementById('gyroToggle').textContent = usingGyro ? 'Gyro On' : 'Gyro Off';
+  iframeUsingGyro = !iframeUsingGyro;
+  const gyroText = document.getElementById('gyroText');
+  gyroText.textContent = iframeUsingGyro ? 'Gyro On' : 'Gyro Off';
+  
+  // Send message to iframe to enable/disable gyro
+  iframe.contentWindow?.postMessage({ 
+    type: 'toggleGyro', 
+    enabled: iframeUsingGyro 
+  }, '*');
 });
 
-/* device orientation -> map to viewer yaw/pitch (mobile) */
-function onDeviceOrientation(e) {
-  if (!usingGyro) return;
-  // alpha: compass heading (0..360), beta: front/back tilt (-180..180), gamma: left/right tilt (-90..90)
-  const alpha = (e.alpha ?? 0) * Math.PI / 180; // yaw-ish
-  const beta  = (e.beta  ?? 0) * Math.PI / 180; // pitch-ish
-  // map alpha to yaw (negated to match viewer coordinate)
-  targetYaw = -alpha;
-  // map beta to pitch but clamp
-  targetPitch = Math.max(-Math.PI/2 + 0.01, Math.min(Math.PI/2 - 0.01, beta * 0.7));
-}
-window.addEventListener('deviceorientation', onDeviceOrientation);
+// Reset View Button
+document.getElementById('iframeResetView').addEventListener('click', () => {
+  // Send message to iframe to reset view
+  iframe.contentWindow?.postMessage({ type: 'resetView' }, '*');
+  // Also reload iframe as fallback
+  const currentSrc = iframe.src;
+  iframe.src = '';
+  setTimeout(() => {
+    iframe.src = currentSrc;
+  }, 100);
+});
 
-/* ---- simple animation loop (updated to support pseudo VR) ---- */
-function draw(){
-  resizeCanvas();
-  gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-  gl.enable(gl.DEPTH_TEST);
-
-  // smooth damp
-  yaw += (targetYaw - yaw) * 0.12;
-  pitch += (targetPitch - pitch) * 0.12;
-  pitch = Math.max(-Math.PI/2 + 0.01, Math.min(Math.PI/2 - 0.01, pitch));
-
-  const w = gl.canvas.width, h = gl.canvas.height;
-
-  if (isPseudoVR) {
-    // left eye
-    const half = Math.floor(w / 2);
-    gl.viewport(0, 0, half, h);
-    const leftProj = mat4_perspective(fov, half / h);
-    let leftView = mat4_identity();
-    mat4_rotate(leftView, -pitch, [1,0,0]);
-    mat4_rotate(leftView, -(yaw - pseudoEyeOffset), [0,1,0]);
-    gl.uniformMatrix4fv(uProj, false, leftProj);
-    gl.uniformMatrix4fv(uView, false, leftView);
-    if (texture) { gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texture); gl.uniform1i(uTex, 0); }
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
-    gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
-
-    // right eye
-    gl.viewport(half, 0, w - half, h);
-    const rightProj = mat4_perspective(fov, (w - half) / h);
-    let rightView = mat4_identity();
-    mat4_rotate(rightView, -pitch, [1,0,0]);
-    mat4_rotate(rightView, -(yaw + pseudoEyeOffset), [0,1,0]);
-    gl.uniformMatrix4fv(uProj, false, rightProj);
-    gl.uniformMatrix4fv(uView, false, rightView);
-    if (texture) { gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texture); gl.uniform1i(uTex, 0); }
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
-    gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
-
-    // optional: draw a small black divider line between eyes for clarity
-    // (left as exercise if you want an overlay DOM element)
-  } else {
-    // normal single render
-    gl.viewport(0,0,w,h);
-    const proj = mat4_perspective(fov, w / h);
-    let view = mat4_identity();
-    mat4_rotate(view, -pitch, [1,0,0]);
-    mat4_rotate(view, -yaw, [0,1,0]);
-
-    gl.uniformMatrix4fv(uProj, false, proj);
-    gl.uniformMatrix4fv(uView, false, view);
-
-    if (texture) {
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, texture);
-      gl.uniform1i(uTex, 0);
-    }
-
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
-    gl.drawElements(gl.TRIANGLES, sph.indices.length, gl.UNSIGNED_SHORT, 0);
+// Fullscreen Button
+document.getElementById('iframeFullscreen').addEventListener('click', () => {
+  if (iframe.requestFullscreen) {
+    iframe.requestFullscreen();
+  } else if (iframe.webkitRequestFullscreen) {
+    iframe.webkitRequestFullscreen();
+  } else if (iframe.mozRequestFullScreen) {
+    iframe.mozRequestFullScreen();
+  } else if (iframe.msRequestFullscreen) {
+    iframe.msRequestFullscreen();
   }
-
-  requestAnimationFrame(draw);
-}
-requestAnimationFrame(draw);
+});
 </script>
 </body>
 </html>
