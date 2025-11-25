@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>DISCOVER CHHATTISGARH </title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<title>DISCOVER CHHATTISGARH</title>
 <style>
   :root{
     --bg-0: #1a1a2e;
@@ -21,14 +23,17 @@
 
   html, body {
     height: 100%;
+    width: 100%;
     margin: 0;
     padding: 0;
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     background-attachment: fixed;
-    font-family: Inter, system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: #e6eefc;
     position: relative;
     overflow: hidden;
+    touch-action: manipulation;
+    -webkit-font-smoothing: antialiased;
   }
 
   * { box-sizing: border-box; }
@@ -64,17 +69,18 @@
     top: 60px;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 80px;
     width: 100%;
-    height: calc(100% - 60px);
+    height: calc(100% - 140px);
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    overflow: hidden;
   }
 
   #tour-embeded {
     width: 100%;
-    height: 85%;
+    height: 100%;
     border: 0;
     border-radius: 0;
     box-shadow: none;
@@ -84,58 +90,71 @@
   /* Controls at bottom */
   .iframe-controls {
     position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
-    gap: 12px;
+    gap: 10px;
     justify-content: center;
     flex-wrap: wrap;
     z-index: 200;
-    background: rgba(5, 6, 10, 0.8);
-    padding: 15px 20px;
-    border-radius: 12px;
+    background: rgba(5, 6, 10, 0.95);
+    padding: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
   }
 
   .iframe-controls .btn {
-    min-width: 140px;
     padding: 10px 16px;
-    border-radius: 10px;
+    border-radius: 8px;
     border: 0;
     background: var(--accent-solid);
     color: white;
     cursor: pointer;
     font-weight: 600;
-    box-shadow: 0 6px 18px rgba(59, 130, 246, 0.12);
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
+    font-size: 13px;
+    white-space: nowrap;
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
 
-  .iframe-controls .btn:hover {
-    transform: translateY(-3px);
+  .iframe-controls .btn:active {
+    background: #2563eb;
+    transform: scale(0.98);
   }
 
   .iframe-controls .btn.secondary {
-    background: #111827;
-    box-shadow: none;
-    font-weight: 500;
+    background: #1f2937;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .iframe-controls .btn.secondary:active {
+    background: #374151;
+  }
+
+  .iframe-controls .btn.active {
+    background: #10b981;
   }
 
   .btn-icon {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
   }
 
-  @media (max-width: 640px) {
+  /* Tablet - 768px and below */
+  @media (max-width: 768px) {
     header {
-      height: 50px;
-      padding: 12px;
+      height: 56px;
+      padding: 12px 16px;
     }
 
     header h1 {
@@ -143,19 +162,169 @@
     }
 
     .iframe-container {
-      top: 50px;
-      height: calc(100% - 50px);
+      top: 56px;
+      bottom: 75px;
+      height: calc(100% - 131px);
     }
 
     .iframe-controls {
       gap: 8px;
-      padding: 12px 15px;
+      padding: 10px;
     }
 
     .iframe-controls .btn {
-      min-width: 110px;
-      padding: 8px 12px;
-      font-size: 14px;
+      padding: 9px 12px;
+      font-size: 12px;
+      min-height: 42px;
+    }
+
+    .btn-icon {
+      width: 15px;
+      height: 15px;
+    }
+  }
+
+  /* Mobile - 640px and below */
+  @media (max-width: 640px) {
+    header {
+      height: 52px;
+      padding: 10px 14px;
+    }
+
+    header h1 {
+      font-size: 15px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .iframe-container {
+      top: 52px;
+      bottom: 70px;
+      height: calc(100% - 122px);
+    }
+
+    .iframe-controls {
+      gap: 6px;
+      padding: 8px 10px;
+    }
+
+    .iframe-controls .btn {
+      padding: 8px 10px;
+      font-size: 11px;
+      min-height: 40px;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .btn-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    .iframe-controls .btn span {
+      display: none;
+    }
+
+    .iframe-controls .btn {
+      padding: 8px;
+    }
+  }
+
+  /* Small Mobile - 480px and below */
+  @media (max-width: 480px) {
+    header {
+      height: 50px;
+      padding: 10px 12px;
+    }
+
+    header h1 {
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+
+    .iframe-container {
+      top: 50px;
+      bottom: 68px;
+      height: calc(100% - 118px);
+    }
+
+    .iframe-controls {
+      gap: 5px;
+      padding: 6px 8px;
+    }
+
+    .iframe-controls .btn {
+      padding: 7px 8px;
+      font-size: 10px;
+      min-height: 38px;
+      flex: 1 1 auto;
+    }
+
+    .btn-icon {
+      width: 13px;
+      height: 13px;
+    }
+  }
+
+  /* Extra Small Mobile - 360px and below */
+  @media (max-width: 360px) {
+    header h1 {
+      font-size: 12px;
+    }
+
+    .iframe-controls {
+      gap: 4px;
+      padding: 4px 6px;
+    }
+
+    .iframe-controls .btn {
+      padding: 6px;
+      min-height: 36px;
+      font-size: 9px;
+    }
+
+    .btn-icon {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  /* Landscape orientation */
+  @media (orientation: landscape) and (max-height: 500px) {
+    header {
+      height: 44px;
+      padding: 6px 12px;
+    }
+
+    header h1 {
+      font-size: 13px;
+    }
+
+    .iframe-container {
+      top: 44px;
+      bottom: 52px;
+      height: calc(100% - 96px);
+    }
+
+    .iframe-controls {
+      padding: 4px 8px;
+      gap: 4px;
+    }
+
+    .iframe-controls .btn {
+      padding: 6px 10px;
+      font-size: 11px;
+      min-height: 34px;
+    }
+
+    .btn-icon {
+      width: 13px;
+      height: 13px;
+    }
+
+    .iframe-controls .btn span {
+      display: none;
     }
   }
 </style>
@@ -166,43 +335,43 @@
 </header>
 
 <div class="iframe-container">
-  <iframe id="tour-embeded" name="Discover Chhattisgarh" src="https://tour.panoee.net/iframe/6925d5c953d4382549bbbc39" frameborder="0" scrolling="no" allowvr="yes" allow="vr; xr; accelerometer; gyroscope; autoplay;" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" loading="eager"></iframe>
+  <iframe id="tour-embeded" name="Discover Chhattisgarh" src="https://tour.panoee.net/iframe/6925d5c953d4382549bbbc39" frameborder="0" scrolling="no" allowvr="yes" allow="vr; xr; accelerometer; gyroscope; autoplay; camera; microphone;" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" loading="eager"></iframe>
 </div>
 
 <div class="iframe-controls">
-  <button id="iframeVr" class="btn">
+  <button id="iframeVr" class="btn" title="Enter VR Mode">
     <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="2" y="7" width="20" height="10" rx="2" />
       <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
       <path d="M9 12h6" />
       <path d="M9 15h6" />
     </svg>
-    <span>Enter VR</span>
+    <span>VR</span>
   </button>
-  <button id="iframeGyro" class="btn secondary">
+  <button id="iframeGyro" class="btn secondary" title="Toggle Gyroscope">
     <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="9" />
       <path d="M12 3v3M12 18v3M3 12h3M18 12h3" />
       <path d="M7.05 7.05l2.12 2.12M14.83 14.83l2.12 2.12M7.05 16.95l2.12-2.12M14.83 9.17l2.12-2.12" />
       <circle cx="12" cy="12" r="3" />
     </svg>
-    <span id="gyroText">Gyro Off</span>
+    <span id="gyroText">Gyro</span>
   </button>
-  <button id="iframeResetView" class="btn secondary">
+  <button id="iframeResetView" class="btn secondary" title="Reset View">
     <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="1 4 1 10 7 10" />
       <path d="M3.51 15a9 9 0 1 0 .49-5.27L1 10" />
     </svg>
-    <span>Reset View</span>
+    <span>Reset</span>
   </button>
-  <button id="iframeFullscreen" class="btn secondary">
+  <button id="iframeFullscreen" class="btn secondary" title="Enter Fullscreen">
     <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="3 9 3 3 9 3" />
       <polyline points="21 9 21 3 15 3" />
       <polyline points="15 21 21 21 21 15" />
       <polyline points="9 21 3 21 3 15" />
     </svg>
-    <span>Fullscreen</span>
+    <span>Full</span>
   </button>
 </div>
 
@@ -217,78 +386,131 @@ const gyroText = document.getElementById('gyroText');
 
 let gyroEnabled = false;
 
+// Forward device motion events to iframe
 function forwardDeviceMotion(e) {
   if (!gyroEnabled || !panoIframe) return;
-  panoIframe.contentWindow?.postMessage({
-    type: "devicemotion",
-    deviceMotionEvent: {
-      acceleration: {
-        x: e.acceleration?.x ?? 0,
-        y: e.acceleration?.y ?? 0,
-        z: e.acceleration?.z ?? 0
-      },
-      accelerationIncludingGravity: {
-        x: e.accelerationIncludingGravity?.x ?? 0,
-        y: e.accelerationIncludingGravity?.y ?? 0,
-        z: e.accelerationIncludingGravity?.z ?? 0
-      },
-      rotationRate: {
-        alpha: e.rotationRate?.alpha ?? 0,
-        beta: e.rotationRate?.beta ?? 0,
-        gamma: e.rotationRate?.gamma ?? 0
-      },
-      interval: e.interval,
-      timeStamp: e.timeStamp
-    }
-  }, "*");
+  
+  try {
+    panoIframe.contentWindow?.postMessage({
+      type: "devicemotion",
+      deviceMotionEvent: {
+        acceleration: {
+          x: e.acceleration?.x ?? 0,
+          y: e.acceleration?.y ?? 0,
+          z: e.acceleration?.z ?? 0
+        },
+        accelerationIncludingGravity: {
+          x: e.accelerationIncludingGravity?.x ?? 0,
+          y: e.accelerationIncludingGravity?.y ?? 0,
+          z: e.accelerationIncludingGravity?.z ?? 0
+        },
+        rotationRate: {
+          alpha: e.rotationRate?.alpha ?? 0,
+          beta: e.rotationRate?.beta ?? 0,
+          gamma: e.rotationRate?.gamma ?? 0
+        },
+        interval: e.interval,
+        timeStamp: e.timeStamp
+      }
+    }, "*");
+  } catch (err) {
+    console.error('Device motion forward error:', err);
+  }
 }
 
-window.addEventListener("devicemotion", forwardDeviceMotion, true);
+// Request gyroscope permission and enable/disable
+async function toggleGyro() {
+  try {
+    // Check if DeviceOrientationEvent exists
+    if (typeof DeviceOrientationEvent === 'undefined') {
+      alert('Gyroscope not supported on this device');
+      return;
+    }
 
-vrBtn?.addEventListener('click', () => {
-  panoIframe?.contentWindow?.postMessage({ type: "enterVR" }, "*");
-  if (panoIframe?.requestFullscreen) {
-    panoIframe.requestFullscreen().catch(() => {});
-  }
-});
-
-gyroBtn?.addEventListener('click', async () => {
-  if (!gyroEnabled && typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-    try {
-      const resp = await DeviceOrientationEvent.requestPermission();
-      if (resp !== 'granted') {
-        alert('Gyro permission denied');
+    // iOS 13+ requires permission request
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      const permission = await DeviceOrientationEvent.requestPermission();
+      if (permission === 'granted') {
+        gyroEnabled = !gyroEnabled;
+        updateGyroButton();
+      } else {
+        alert('Gyroscope permission denied');
         return;
       }
-    } catch (err) {
-      console.warn('Gyro permission request failed', err);
+    } else {
+      // Non-iOS or older iOS versions
+      gyroEnabled = !gyroEnabled;
+      updateGyroButton();
     }
+  } catch (error) {
+    console.error('Gyroscope error:', error);
+    alert('Gyroscope error: ' + error.message);
   }
-  gyroEnabled = !gyroEnabled;
-  if (gyroText) gyroText.textContent = gyroEnabled ? 'Gyro On' : 'Gyro Off';
+}
+
+function updateGyroButton() {
+  if (gyroEnabled) {
+    gyroBtn.classList.add('active');
+    gyroText.textContent = 'Gyro On';
+    window.addEventListener('devicemotion', forwardDeviceMotion, true);
+  } else {
+    gyroBtn.classList.remove('active');
+    gyroText.textContent = 'Gyro Off';
+    window.removeEventListener('devicemotion', forwardDeviceMotion, true);
+  }
+}
+
+// Button event listeners
+gyroBtn?.addEventListener('click', toggleGyro);
+
+vrBtn?.addEventListener('click', () => {
+  try {
+    panoIframe?.contentWindow?.postMessage({ type: "enterVR" }, "*");
+    if (panoIframe?.requestFullscreen) {
+      panoIframe.requestFullscreen().catch(() => {});
+    }
+  } catch (err) {
+    console.error('VR error:', err);
+  }
 });
 
 resetBtn?.addEventListener('click', () => {
   if (!panoIframe) return;
-  panoIframe.contentWindow?.postMessage({ type: 'resetView' }, '*');
-  const currentSrc = panoIframe.src;
-  panoIframe.src = '';
-  setTimeout(() => {
-    panoIframe.src = currentSrc;
-  }, 120);
+  try {
+    panoIframe.contentWindow?.postMessage({ type: 'resetView' }, '*');
+    const currentSrc = panoIframe.src;
+    panoIframe.src = '';
+    setTimeout(() => {
+      panoIframe.src = currentSrc;
+    }, 100);
+  } catch (err) {
+    console.error('Reset error:', err);
+  }
 });
 
 fullscreenBtn?.addEventListener('click', () => {
   if (!panoIframe) return;
-  const requestFs =
-    panoIframe.requestFullscreen ??
-    panoIframe.webkitRequestFullscreen ??
-    panoIframe.mozRequestFullScreen ??
-    panoIframe.msRequestFullscreen;
-  if (requestFs) {
-    requestFs.call(panoIframe).catch(() => {});
+  try {
+    const requestFs =
+      panoIframe.requestFullscreen ??
+      panoIframe.webkitRequestFullscreen ??
+      panoIframe.mozRequestFullScreen ??
+      panoIframe.msRequestFullscreen;
+    
+    if (requestFs) {
+      requestFs.call(panoIframe).catch(() => {});
+    }
+  } catch (err) {
+    console.error('Fullscreen error:', err);
   }
 });
+
+// Prevent unwanted scroll
+document.addEventListener('touchmove', (e) => {
+  if (!e.target.closest('#tour-embeded')) {
+    e.preventDefault();
+  }
+}, { passive: false });
 </script>
 </body>
 </html>
