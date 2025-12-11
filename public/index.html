@@ -54,16 +54,32 @@
 
   /* Header */
   header{
-    padding:16px 20px;
+    padding:12px 20px;
     display:flex;
-    justify-content:space-between;
+    justify-content:center;
     align-items:center;
     gap:12px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-    border-bottom:1px solid rgba(255,255,255,0.02);
-    backdrop-filter: blur(6px);
+    background:linear-gradient(180deg, rgba(26,26,46,0.95), rgba(22,33,62,0.95));
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: auto;
+    min-height: 50px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
   }
-  header h1{margin:0;font-size:18px;letter-spacing:0.2px;font-weight:600}
+  header h1{
+    margin:0;
+    font-size:20px;
+    letter-spacing:0.5px;
+    font-weight:700;
+    color:#e6eefc;
+    text-align:center;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
   header .brand-sub{color:var(--muted);font-size:13px}
 
   /* Layout */
@@ -209,12 +225,16 @@
 
   /* Iframe container */
   .iframe-container {
-    position: relative;
-    margin: 40px auto;
-    width: min(1000px, 90%);
-    padding: 20px;
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 50px);
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
     animation: fadeInUp 0.8s ease-out;
+    z-index: 1;
   }
   
   @keyframes fadeInUp {
@@ -230,11 +250,30 @@
   
   #tour-embeded {
     width: 100%;
-    height: 400px;
+    height: 100%;
     border: 0;
-    border-radius: 14px;
-    box-shadow: 0 20px 60px rgba(15, 52, 96, 0.55);
+    border-radius: 0;
+    box-shadow: none;
     animation: fadeIn 1s ease-out;
+  }
+  
+  body {
+    overflow: hidden;
+  }
+  
+  @media (max-width: 768px) {
+    header {
+      min-height: 45px;
+      padding: 10px 15px;
+    }
+    header h1 {
+      font-size: 16px;
+      letter-spacing: 0.3px;
+    }
+    .iframe-container {
+      top: 45px;
+      height: calc(100vh - 45px);
+    }
   }
   
   @keyframes fadeIn {
@@ -274,126 +313,37 @@
 <body>
 <header><h1>Discover CG — EK Virtual Safar </h1></header>
 <div class="iframe-container">
-  <iframe id="tour-embeded" name="Discover Chhattisgarh" src="https://tour.panoee.net/iframe/6925d5c953d4382549bbbc39" frameborder="0" width="100%" height="400px" scrolling="no" allowvr="yes" allow="vr; xr; accelerometer; gyroscope; autoplay;" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" loading="eager"></iframe>
-</div>
-<div class="iframe-controls">
-  <button id="iframeVr" class="btn">
-    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="2" y="7" width="20" height="10" rx="2" />
-      <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-      <path d="M9 12h6" />
-      <path d="M9 15h6" />
-    </svg>
-    <span>Enter VR</span>
-  </button>
-  <button id="iframeGyro" class="btn secondary">
-    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 3v3M12 18v3M3 12h3M18 12h3" />
-      <path d="M7.05 7.05l2.12 2.12M14.83 14.83l2.12 2.12M7.05 16.95l2.12-2.12M14.83 9.17l2.12-2.12" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-    <span id="gyroText">Gyro Off</span>
-  </button>
-  <button id="iframeResetView" class="btn secondary">
-    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="1 4 1 10 7 10" />
-      <path d="M3.51 15a9 9 0 1 0 .49-5.27L1 10" />
-    </svg>
-    <span>Reset View</span>
-  </button>
-  <button id="iframeFullscreen" class="btn secondary">
-    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="3 9 3 3 9 3" />
-      <polyline points="21 9 21 3 15 3" />
-      <polyline points="15 21 21 21 21 15" />
-      <polyline points="9 21 3 21 3 15" />
-    </svg>
-    <span>Fullscreen</span>
-  </button>
+  <iframe id="tour-embeded" name="Discover Chhattisgarh" src="https://tour.panoee.net/iframe/6925d5c953d4382549bbbc39" frameborder="0" width="100%" height="100%" scrolling="no" allowvr="yes" allow="vr; xr; accelerometer; gyroscope; autoplay;" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" loading="eager"></iframe>
 </div>
 
 <script>
-const pano_iframe_name = "tour-embeded";
-const panoIframe = document.getElementById(pano_iframe_name);
-const vrBtn = document.getElementById('iframeVr');
-const gyroBtn = document.getElementById('iframeGyro');
-const resetBtn = document.getElementById('iframeResetView');
-const fullscreenBtn = document.getElementById('iframeFullscreen');
-const gyroText = document.getElementById('gyroText');
+var pano_iframe_name = "tour-embeded";
 
-let gyroEnabled = false;
-
-function forwardDeviceMotion(e){
-  if (!gyroEnabled || !panoIframe) return;
-  panoIframe.contentWindow?.postMessage({
-    type:"devicemotion",
-    deviceMotionEvent:{
-      acceleration:{
-        x:e.acceleration?.x ?? 0,
-        y:e.acceleration?.y ?? 0,
-        z:e.acceleration?.z ?? 0
-      },
-      accelerationIncludingGravity:{
-        x:e.accelerationIncludingGravity?.x ?? 0,
-        y:e.accelerationIncludingGravity?.y ?? 0,
-        z:e.accelerationIncludingGravity?.z ?? 0
-      },
-      rotationRate:{
-        alpha:e.rotationRate?.alpha ?? 0,
-        beta:e.rotationRate?.beta ?? 0,
-        gamma:e.rotationRate?.gamma ?? 0
-      },
-      interval:e.interval,
-      timeStamp:e.timeStamp
-    }
-  }, "*");
-}
-
-window.addEventListener("devicemotion", forwardDeviceMotion, true);
-
-vrBtn?.addEventListener('click', () => {
-  panoIframe?.contentWindow?.postMessage({ type: "enterVR" }, "*");
-  if (panoIframe?.requestFullscreen) {
-    panoIframe.requestFullscreen().catch(()=>{});
-  }
-});
-
-gyroBtn?.addEventListener('click', async () => {
-  if (!gyroEnabled && typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-    try {
-      const resp = await DeviceOrientationEvent.requestPermission();
-      if (resp !== 'granted') {
-        alert('Gyro permission denied');
-        return;
-      }
-    } catch(err){
-      console.warn('Gyro permission request failed', err);
-    }
-  }
-  gyroEnabled = !gyroEnabled;
-  if (gyroText) gyroText.textContent = gyroEnabled ? 'Gyro On' : 'Gyro Off';
-});
-
-resetBtn?.addEventListener('click', () => {
-  if (!panoIframe) return;
-  panoIframe.contentWindow?.postMessage({ type: 'resetView' }, '*');
-  const currentSrc = panoIframe.src;
-  panoIframe.src = '';
-  setTimeout(() => {
-    panoIframe.src = currentSrc;
-  }, 120);
-});
-
-fullscreenBtn?.addEventListener('click', () => {
-  if (!panoIframe) return;
-  const requestFs =
-    panoIframe.requestFullscreen ??
-    panoIframe.webkitRequestFullscreen ??
-    panoIframe.mozRequestFullScreen ??
-    panoIframe.msRequestFullscreen;
-  if (requestFs) {
-    requestFs.call(panoIframe).catch(()=>{});
+window.addEventListener("devicemotion", function(e){ 
+  var iframe = document.getElementById(pano_iframe_name); 
+  if (iframe) {
+    iframe.contentWindow.postMessage({ 
+      type:"devicemotion", 
+      deviceMotionEvent:{ 
+        acceleration:{ 
+          x:e.acceleration.x, 
+          y:e.acceleration.y, 
+          z:e.acceleration.z 
+        }, 
+        accelerationIncludingGravity:{ 
+          x:e.accelerationIncludingGravity.x, 
+          y:e.accelerationIncludingGravity.y, 
+          z:e.accelerationIncludingGravity.z 
+        }, 
+        rotationRate:{ 
+          alpha:e.rotationRate.alpha, 
+          beta:e.rotationRate.beta, 
+          gamma:e.rotationRate.gamma 
+        }, 
+        interval:e.interval, 
+        timeStamp:e.timeStamp 
+      } 
+    }, "*"); 
   }
 });
 </script>
