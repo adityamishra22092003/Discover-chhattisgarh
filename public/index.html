@@ -2,10 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<title>DISCOVER CHHATTISGARH</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>DISCOVER CHHATTISGARH </title>
 <style>
   :root{
     --bg-0: #1a1a2e;
@@ -21,179 +19,383 @@
     --shadow: 0 8px 30px rgba(2,6,23,0.6);
   }
 
-  html, body {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
+  /* Page */
+  html,body{
+    height:100%;
+    margin:0;
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     background-attachment: fixed;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    color: #e6eefc;
+    font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    color:#e6eefc;
     position: relative;
-    overflow: hidden;
-    touch-action: manipulation;
-    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
-
-  * { box-sizing: border-box; }
-
-  /* Full screen layout */
-  header {
+  
+  /* Animated background gradient */
+  body::before {
+    content: '';
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    height: 60px;
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-    border-bottom: 1px solid rgba(255,255,255,0.02);
-    backdrop-filter: blur(6px);
-    z-index: 100;
-  }
-
-  header h1 {
-    margin: 0;
-    font-size: 18px;
-    letter-spacing: 0.2px;
-    font-weight: 600;
-  }
-
-  /* Main container - full screen */
-  .iframe-container {
-    position: fixed;
-    top: 60px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: calc(100% - 60px);
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-
-  #tour-embeded {
     width: 100%;
     height: 100%;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    z-index: -1;
+  }
+  
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  *{box-sizing:border-box}
+
+  /* Header */
+  header{
+    padding:16px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    border-bottom:1px solid rgba(255,255,255,0.02);
+    backdrop-filter: blur(6px);
+  }
+  header h1{margin:0;font-size:18px;letter-spacing:0.2px;font-weight:600}
+  header .brand-sub{color:var(--muted);font-size:13px}
+
+  /* Layout */
+  #app{display:grid;grid-template-columns:300px 1fr;gap:12px;padding:18px;height:calc(100% - 84px);box-sizing:border-box}
+  @media (max-width:900px){#app{grid-template-columns:1fr;padding:12px;height:calc(100% - 120px)}}
+
+  /* Panels */
+  .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);overflow:auto;border:1px solid rgba(255,255,255,0.02)}
+  .panel h3{margin:0 0 12px 0;color:#e6eefc}
+
+  /* Places list */
+  #placesList{display:flex;flex-direction:column;gap:8px}
+  #placesList button{
+    display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;border:0;background:transparent;color:#d1d5db;cursor:pointer;transition:all .18s ease;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.01);
+  }
+  #placesList button:hover{transform:translateY(-2px);background:linear-gradient(90deg, rgba(59,130,246,0.08), rgba(6,182,212,0.04));box-shadow:0 6px 18px rgba(3,10,38,0.6)}
+  #placesList button:active{transform:translateY(0)}
+  #placesList button::before{
+    content:"";width:10px;height:10px;border-radius:50%;background:linear-gradient(180deg,#7dd3fc,#60a5fa);box-shadow:0 2px 6px rgba(59,130,246,0.18)
+  }
+
+  /* Preview / canvas */
+  #preview{position:relative;height:100%;display:flex;flex-direction:column;gap:10px}
+  .canvas-wrap{position:relative;flex:1;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.03);box-shadow:inset 0 2px 0 rgba(255,255,255,0.02)}
+  canvas{width:100%;height:100%;display:block;background:#000;border-radius:8px}
+
+  /* Controls */
+  #controls{display:flex;gap:10px;align-items:center}
+  .btn{
+    padding:8px 14px;border-radius:10px;border:0;background:var(--accent-solid);color:white;cursor:pointer;font-weight:600;box-shadow:0 6px 18px rgba(59,130,246,0.12);transition:transform .12s ease,box-shadow .12s ease,opacity .12s ease;
+  }
+  .btn:hover{transform:translateY(-3px)}
+  .btn.secondary{background:#111827;box-shadow:none;font-weight:500}
+  #fov{vertical-align:middle;margin-left:8px}
+
+  /* Hotspot (DOM) */
+  .hotspot{
+    position:absolute;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:999px;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.12), rgba(255,255,255,0.04));display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;border:2px solid rgba(255,255,255,0.12);
+    box-shadow:0 6px 18px rgba(0,0,0,0.6);backdrop-filter: blur(4px);cursor:pointer;transition:transform .14s ease,box-shadow .14s ease,opacity .2s;
+  }
+  .hotspot:hover{transform:scale(1.08);box-shadow:0 12px 28px rgba(3,10,38,0.6)}
+  .hotspot[data-label]{--tooltip:attr(data-label);}
+
+  /* Footer */
+  .footer-stripe{
+    height:10px;
+    margin:12px 18px 0; /* space and horizontal inset to match panels */
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+    background: linear-gradient(180deg, #000, rgba(0,0,0,0.85));
+    box-shadow: 0 -6px 24px rgba(0,0,0,0.6) inset;
+    pointer-events: none;
+  }
+  footer{
+    margin-top:8px;
+    color:var(--muted);
+    padding:12px 18px;
+    font-size:18px;
+    text-align:center;
+    border-top:1px solid rgba(255,255,255,0.02);
+    background:linear-gradient(180deg, transparent, rgba(255,255,255,0.01));
+  }
+
+  /* Small utilities */
+  .muted{color:var(--muted);font-size:13px}
+  .kbd{padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.02);font-weight:600;font-size:12px}
+
+  /* Custom scrollbar for panels */
+  .panel::-webkit-scrollbar{width:10px;height:10px}
+  .panel::-webkit-scrollbar-thumb{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));border-radius:999px;border:2px solid transparent}
+  .panel::-webkit-scrollbar-track{background:transparent}
+
+  /* Responsive tweaks */
+  @media (max-width:640px){
+    header{padding:12px}
+    #controls{flex-wrap:wrap}
+    .btn{flex:1}
+    .hotspot{width:40px;height:40px;font-size:12px}
+    #placesList button{padding:12px}
+  }
+    /* Bottom-right compass */
+  .compass {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    width: 110px;
+    height: 110px;
+    border-radius: 12px;
+    background: rgba(5,6,10,0.75);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e6eefc;
+    font-family: system-ui, Arial, sans-serif;
+    z-index: 9999;
+    border: 1px solid rgba(255,255,255,0.04);
+    user-select: none;
+    padding: 8px;
+  }
+  .compass .face {
+    position: relative;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(235, 154, 154, 0.03), transparent 30%);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .compass .cardinal {
+    position: absolute;
+    font-weight:700;
+    font-size:12px;
+    color: #cbd5e1;
+    pointer-events:none;
+  }
+  .compass .cardinal.n { top: 8px; left: 50%; transform: translateX(-50%); }
+  .compass .cardinal.s { bottom: 8px; left: 50%; transform: translateX(-50%); }
+  .compass .cardinal.e { right: 8px; top: 50%; transform: translateY(-50%); }
+  .compass .cardinal.w { left: 8px; top: 50%; transform: translateY(-50%); }
+
+  .compass .needle {
+    width: 4px;
+    height: 25px;
+    background: linear-gradient(180deg,#ff7a7a,#f28f8f);
+    position: center;
+    border-radius: 3px;
+    transform-origin: 50% 70%;
+    box-shadow: 0 4px 10px rgba(202, 148, 148, 0.6);
+  }
+  .compass .needle::after {
+    content:'';
+    position:absolute;
+    bottom:-8px;
+    left:50%; transform:translateX(-50%);
+    width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,0.4);
+  }
+  .compass .centerDot {
+    position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;opacity:0.9;z-index:2;
+  }
+
+  @media (max-width:640px){ .compass { width:84px; height:84px; right:12px; bottom:12px } .compass .face{width:66px;height:66px} }
+
+  /* Iframe container */
+  .iframe-container {
+    position: relative;
+    margin: 40px auto;
+    width: min(1000px, 90%);
+    padding: 20px;
+    box-sizing: border-box;
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  #tour-embeded {
+    width: 100%;
+    height: 400px;
     border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    display: block;
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(15, 52, 96, 0.55);
+    animation: fadeIn 1s ease-out;
   }
-
-  /* Tablet - 768px and below */
-  @media (max-width: 768px) {
-    header {
-      height: 56px;
-      padding: 12px 16px;
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
     }
-
-    header h1 {
-      font-size: 16px;
-    }
-
-    .iframe-container {
-      top: 56px;
-      height: calc(100% - 56px);
+    to {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 
-  /* Mobile - 640px and below */
-  @media (max-width: 640px) {
-    header {
-      height: 52px;
-      padding: 10px 14px;
-    }
-
-    header h1 {
-      font-size: 15px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .iframe-container {
-      top: 52px;
-      height: calc(100% - 52px);
-    }
+  .iframe-controls{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin:20px auto 0;
+    width:min(1000px,90%);
   }
 
-  /* Small Mobile - 480px and below */
-  @media (max-width: 480px) {
-    header {
-      height: 50px;
-      padding: 10px 12px;
-    }
-
-    header h1 {
-      font-size: 13px;
-      letter-spacing: 0;
-    }
-
-    .iframe-container {
-      top: 50px;
-      height: calc(100% - 50px);
-    }
+  .iframe-controls .btn{
+    min-width:140px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
   }
 
-  /* Extra Small Mobile - 360px and below */
-  @media (max-width: 360px) {
-    header h1 {
-      font-size: 12px;
-    }
-  }
-
-  /* Landscape orientation */
-  @media (orientation: landscape) and (max-height: 500px) {
-    header {
-      height: 44px;
-      padding: 6px 12px;
-    }
-
-    header h1 {
-      font-size: 13px;
-    }
-
-    .iframe-container {
-      top: 44px;
-      height: calc(100% - 44px);
-    }
+  .btn-icon{
+    width:18px;
+    height:18px;
   }
 </style>
 </head>
 <body>
-<header>
-  <h1>Discover CG — EK Virtual Safar</h1>
-</header>
-
+<header><h1>Discover CG — EK Virtual Safar </h1></header>
 <div class="iframe-container">
-  <iframe id="tour-embeded" name="Discover Chhattisgarh" src="https://tour.panoee.net/iframe/6925d5c953d4382549bbbc39" frameborder="0" scrolling="no" allowvr="yes" allow="vr; xr; accelerometer; gyroscope; autoplay; camera; microphone;" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" loading="eager"></iframe>
+  <iframe id="tour-embeded" name="Discover Chhattisgarh" src="https://tour.panoee.net/iframe/6925d5c953d4382549bbbc39" frameborder="0" width="100%" height="400px" scrolling="no" allowvr="yes" allow="vr; xr; accelerometer; gyroscope; autoplay;" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" loading="eager"></iframe>
+</div>
+<div class="iframe-controls">
+  <button id="iframeVr" class="btn">
+    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="7" width="20" height="10" rx="2" />
+      <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <path d="M9 12h6" />
+      <path d="M9 15h6" />
+    </svg>
+    <span>Enter VR</span>
+  </button>
+  <button id="iframeGyro" class="btn secondary">
+    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 3v3M12 18v3M3 12h3M18 12h3" />
+      <path d="M7.05 7.05l2.12 2.12M14.83 14.83l2.12 2.12M7.05 16.95l2.12-2.12M14.83 9.17l2.12-2.12" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+    <span id="gyroText">Gyro Off</span>
+  </button>
+  <button id="iframeResetView" class="btn secondary">
+    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="1 4 1 10 7 10" />
+      <path d="M3.51 15a9 9 0 1 0 .49-5.27L1 10" />
+    </svg>
+    <span>Reset View</span>
+  </button>
+  <button id="iframeFullscreen" class="btn secondary">
+    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="3 9 3 3 9 3" />
+      <polyline points="21 9 21 3 15 3" />
+      <polyline points="15 21 21 21 21 15" />
+      <polyline points="9 21 3 21 3 15" />
+    </svg>
+    <span>Fullscreen</span>
+  </button>
 </div>
 
 <script>
-  // Minimal script - only required for iframe functionality
-  const pano_iframe_name = "tour-embeded";
-  window.addEventListener("devicemotion", function(e) {
-    var iframe = document.getElementById(pano_iframe_name);
-    if (iframe) {
-      iframe.contentWindow.postMessage({
-        type: "devicemotion",
-        deviceMotionEvent: {
-          acceleration: { x: e.acceleration?.x ?? 0, y: e.acceleration?.y ?? 0, z: e.acceleration?.z ?? 0 },
-          accelerationIncludingGravity: { x: e.accelerationIncludingGravity?.x ?? 0, y: e.accelerationIncludingGravity?.y ?? 0, z: e.accelerationIncludingGravity?.z ?? 0 },
-          rotationRate: { alpha: e.rotationRate?.alpha ?? 0, beta: e.rotationRate?.beta ?? 0, gamma: e.rotationRate?.gamma ?? 0 },
-          interval: e.interval,
-          timeStamp: e.timeStamp
-        }
-      }, "*");
+const pano_iframe_name = "tour-embeded";
+const panoIframe = document.getElementById(pano_iframe_name);
+const vrBtn = document.getElementById('iframeVr');
+const gyroBtn = document.getElementById('iframeGyro');
+const resetBtn = document.getElementById('iframeResetView');
+const fullscreenBtn = document.getElementById('iframeFullscreen');
+const gyroText = document.getElementById('gyroText');
+
+let gyroEnabled = false;
+
+function forwardDeviceMotion(e){
+  if (!gyroEnabled || !panoIframe) return;
+  panoIframe.contentWindow?.postMessage({
+    type:"devicemotion",
+    deviceMotionEvent:{
+      acceleration:{
+        x:e.acceleration?.x ?? 0,
+        y:e.acceleration?.y ?? 0,
+        z:e.acceleration?.z ?? 0
+      },
+      accelerationIncludingGravity:{
+        x:e.accelerationIncludingGravity?.x ?? 0,
+        y:e.accelerationIncludingGravity?.y ?? 0,
+        z:e.accelerationIncludingGravity?.z ?? 0
+      },
+      rotationRate:{
+        alpha:e.rotationRate?.alpha ?? 0,
+        beta:e.rotationRate?.beta ?? 0,
+        gamma:e.rotationRate?.gamma ?? 0
+      },
+      interval:e.interval,
+      timeStamp:e.timeStamp
     }
-  });
+  }, "*");
+}
+
+window.addEventListener("devicemotion", forwardDeviceMotion, true);
+
+vrBtn?.addEventListener('click', () => {
+  panoIframe?.contentWindow?.postMessage({ type: "enterVR" }, "*");
+  if (panoIframe?.requestFullscreen) {
+    panoIframe.requestFullscreen().catch(()=>{});
+  }
+});
+
+gyroBtn?.addEventListener('click', async () => {
+  if (!gyroEnabled && typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    try {
+      const resp = await DeviceOrientationEvent.requestPermission();
+      if (resp !== 'granted') {
+        alert('Gyro permission denied');
+        return;
+      }
+    } catch(err){
+      console.warn('Gyro permission request failed', err);
+    }
+  }
+  gyroEnabled = !gyroEnabled;
+  if (gyroText) gyroText.textContent = gyroEnabled ? 'Gyro On' : 'Gyro Off';
+});
+
+resetBtn?.addEventListener('click', () => {
+  if (!panoIframe) return;
+  panoIframe.contentWindow?.postMessage({ type: 'resetView' }, '*');
+  const currentSrc = panoIframe.src;
+  panoIframe.src = '';
+  setTimeout(() => {
+    panoIframe.src = currentSrc;
+  }, 120);
+});
+
+fullscreenBtn?.addEventListener('click', () => {
+  if (!panoIframe) return;
+  const requestFs =
+    panoIframe.requestFullscreen ??
+    panoIframe.webkitRequestFullscreen ??
+    panoIframe.mozRequestFullScreen ??
+    panoIframe.msRequestFullscreen;
+  if (requestFs) {
+    requestFs.call(panoIframe).catch(()=>{});
+  }
+});
 </script>
 </body>
 </html>
