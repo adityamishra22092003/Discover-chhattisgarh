@@ -1,4 +1,4 @@
-# 🌏 Discover Chhattisgarh: Ek Virtual Safar
+# Discover Chhattisgarh: Ek Virtual Safar
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D12.0.0-brightgreen.svg)](https://nodejs.org/)
@@ -7,11 +7,11 @@
 
 > An immersive Virtual Reality web application that digitally showcases the rich culture, heritage, and natural beauty of Chhattisgarh, India.
 
-**🌐 Live Application:** [https://discover-chhattisgarh.vercel.app/](https://discover-chhattisgarh.vercel.app/)
+** **Live Application:** [https://discover-chhattisgarh.vercel.app/](https://discover-chhattisgarh.vercel.app/)**
 
 ---
 
-## 📋 Table of Contents
+##  Table of Contents
 
 - [Overview](#overview)
 - [Live Demo](#-live-demo)
@@ -27,7 +27,7 @@
 
 ---
 
-## 🎯 Overview
+##  Overview
 
 **Discover Chhattisgarh: Ek Virtual Safar** is a cutting-edge mobile web application designed to promote tourism and cultural heritage through immersive Virtual Reality experiences. Users can explore famous temples, waterfalls, museums, and historical monuments of Chhattisgarh from anywhere in the world.
 
@@ -35,30 +35,30 @@ This project seamlessly integrates **tourism with modern technology**, providing
 
 ---
 
-## 🌐 Live Demo
+##  Live Demo
 
 Experience the application live:
 
-**🔗 [https://discover-chhattisgarh.vercel.app/](https://discover-chhattisgarh.vercel.app/)**
+** [https://discover-chhattisgarh.vercel.app/](https://discover-chhattisgarh.vercel.app/)**
 
 The application is deployed on **Vercel** and is accessible from any device with a modern web browser. For the best experience, use a mobile device with gyroscope support or a VR-compatible browser.
 
 ---
 
-## ✨ Features
+## Features
 
-- 🥽 **Immersive VR Experience** - Full Virtual Reality support with WebXR
-- 📱 **Mobile-Optimized** - Responsive design for all devices
-- 🧭 **Gyroscope Control** - Device motion sensors for natural navigation
-- 🎨 **Interactive Panoramas** - 360-degree panoramic views of destinations
-- 🔄 **Reset View** - Quick reset to default viewing angle
-- 🖥️ **Fullscreen Mode** - Enhanced immersive experience
-- 🎯 **Easy Navigation** - Intuitive controls and user interface
-- 🌈 **Modern UI/UX** - Beautiful animations and gradient backgrounds
+-  **Immersive VR Experience** - Full Virtual Reality support with WebXR
+-  **Mobile-Optimized** - Responsive design for all devices
+-  **Gyroscope Control** - Device motion sensors for natural navigation
+-  **Interactive Panoramas** - 360-degree panoramic views of destinations
+-  **Reset View** - Quick reset to default viewing angle
+-  **Fullscreen Mode** - Enhanced immersive experience
+-  **Easy Navigation** - Intuitive controls and user interface
+-  **Modern UI/UX** - Beautiful animations and gradient backgrounds
 
 ---
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 ### Frontend
 - **HTML5** - Semantic markup
@@ -73,7 +73,7 @@ The application is deployed on **Vercel** and is accessible from any device with
 - **File System API** - Data persistence
 
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 
@@ -109,7 +109,7 @@ The application is deployed on **Vercel** and is accessible from any device with
 
 ---
 
-## 📖 Usage
+##  Usage
 
 ### Basic Navigation
 
@@ -126,7 +126,7 @@ The application is deployed on **Vercel** and is accessible from any device with
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 Minor Project/
@@ -147,7 +147,7 @@ Minor Project/
 
 ---
 
-## 🔌 API Documentation
+##  API Documentation
 
 ### Endpoints
 
@@ -204,7 +204,7 @@ DELETE /api/place?id={placeId}
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these steps:
 
@@ -222,13 +222,13 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 📞 Contact
+## Contact
 
 **Project Maintainer**  
 Email: [adimishra2209@gmail.com]  
@@ -239,7 +239,7 @@ GitHub: [@adityamishra22092003](https://github.com/adityamishra22092003)
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Chhattisgarh Tourism Board
 - Panoee Platform for panoramic tour integration
@@ -248,9 +248,9 @@ GitHub: [@adityamishra22092003](https://github.com/adityamishra22092003)
 
 ---
 
-## 📊 Project Status
+##  Project Status
 
-✅ **Active Development** - Currently in active development phase
+ **Active Development** - Currently in active development phase
 
 **Current Version:** 1.0.0  
 **Last Updated:** 2024  
@@ -260,7 +260,7 @@ GitHub: [@adityamishra22092003](https://github.com/adityamishra22092003)
 
 <div align="center">
 
-**Made with ❤️ for Chhattisgarh Tourism**
+**Made with Love for Chhattisgarh Tourism**
 
 [⬆ Back to Top](#-discover-chhattisgarh-ek-virtual-safar)
 
