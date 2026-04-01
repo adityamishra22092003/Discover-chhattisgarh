@@ -112,10 +112,7 @@ server.listen(PORT, () => console.log('Server running on http://localhost:' + PO
 //   gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 //   gl.enable(gl.DEPTH_TEST);
 
-//   // smooth damp
-//   yaw += (targetYaw - yaw) * 0.12;
-//   pitch += (targetPitch - pitch) * 0.12;
-//   pitch = Math.max(-Math.PI/2 + 0.01, Math.min(Math.PI/2 - 0.01, pitch));
+
 
 //   // Stereo parameters
 //   const eyeSep = 1.5; // eye separation
