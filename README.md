@@ -245,6 +245,7 @@ GitHub: [@adityamishra22092003](https://github.com/adityamishra22092003)
 - Panoee Platform for panoramic tour integration
 - WebXR Community for VR standards
 - All contributors and supporters
+- Updated Version of our project 
 
 ---
 
@@ -266,4 +267,4 @@ GitHub: [@adityamishra22092003](https://github.com/adityamishra22092003)
 
 </div>
 
-ThankYou
+ThankYou 
