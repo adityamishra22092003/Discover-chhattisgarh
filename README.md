@@ -127,7 +127,6 @@ The application is deployed on **Vercel** and is accessible from any device with
 ---
 
 ##  Project Structure
-
 ```
 Minor Project/
 │
